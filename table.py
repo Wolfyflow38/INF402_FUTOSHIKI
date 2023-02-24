@@ -1,5 +1,12 @@
+from sys import version_info
 
-from typing import Self
+assert version_info.major == 3
+
+if version_info.minor < 11:
+    from typing import Any as Self
+else:
+    from typing import Self # nouveau en 3.11
+
 from json import loads
 from math import log10, floor
 

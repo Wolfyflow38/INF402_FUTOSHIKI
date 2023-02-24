@@ -10,6 +10,6 @@ def run_texte(**kw: dict) -> None:
     ta.set_h_sign_at(0, 1, True)
     ta.set_h_sign_at(2, 3, False)
     ta.set_v_sign_at(3, 2, True)
-    print(ta)
+#    print(ta)
     print(ta.gen_dimacs())
     return None

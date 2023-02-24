@@ -11,6 +11,6 @@ if __name__ == '__main__':
     # recuperer les argument du program
     if flag_graph:
         run_graphique(output = None, input = None)
-    elif:
-        run_texte
+    else:
+        run_texte(output = None, input = None)
 

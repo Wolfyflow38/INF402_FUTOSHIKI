@@ -1,3 +1,9 @@
+# nos fichier, cf : celui qui l'ecrit
+
+None
+
+# librarie standard, cf : internet
+
 from sys import version_info
 
 assert version_info.major == 3
@@ -139,8 +145,22 @@ class table(object):
     """
     
     """
-    def gen_v_clauses(self: Self) -> list[str]:
-        return []
+    def gen_v_clauses(self: Self, x: int | None = None) -> list[str]:
+        if x is None:
+            return sum([self.gen_v_clauses(_x) for _x in range(self.n)], [])
+        else:
+            return sum([[   # la valeur est deja dans la colone
+                f"-{gen_id(x, y + 1)} 0"
+                for y in range(self.n) if y != self.values[x].index(v + 1)
+            ] if v + 1 in self.values[x] else [
+                # la valeur doit etre dans la colone une fois
+                " ".join(gen_id(x, y, v + 1) for y in range(self.n) if not self.values[x][y]) + " 0",
+                # la valeur ne doit pas etre presente plusieur fois
+                *[
+                    f"-{gen_id(x, y, v + 1)} {gen_id(x, y + 1, v + 1)} 0"
+                    for y in range(self.n) for y2 in range(y + 1, y2)
+                ]
+            ] for v + 1 for v in range(self.n)], [])
 
     """
     

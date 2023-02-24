@@ -1,8 +1,20 @@
+# nos fichier, cf : celui qui l'ecrit
+
 from table import table
 
-def run_texte(**kw: dict) -> None:
-    input_file = kw.get("input", None)
-    output_file = kw.get("output", None)
+# librarie standard, cf : internet
+
+from sys import stdout, stdin
+from _io import TextIOWrapper
+
+"""
+
+"""
+def run_texte(
+        input_file : TextIOWrapper = stdin,
+        output_file : TextIOWrapper = stdout,
+        *a: tuple, **kw: dict
+) -> None:
     ta = table('{"size": 10}')
     ta.set_value_at(0, 0, 1)
     ta.set_h_sign_at(0, 0, True)

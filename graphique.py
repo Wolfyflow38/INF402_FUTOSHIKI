@@ -1,6 +1,20 @@
-from tkinter import Tk
+# nos fichier, cf : celui qui l'ecrit
 
-def run_graphique(**kw: dict) -> None:
-    input_file = kw.get("input", None)
-    output_file = kw.get("output", None)
+None
+
+# librarie standard, cf : internet
+
+from tkinter import Tk
+from sys import stdout, stdin
+from _io import TextIOWrapper
+
+
+"""
+
+"""
+def run_graphique(
+        input_file : TextIOWrapper = stdin,
+        output_file : TextIOWrapper = stdout,
+        *a: tuple, **kw: dict
+) -> None:
     return None

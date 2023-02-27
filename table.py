@@ -150,17 +150,17 @@ class table(object):
             return sum([self.gen_v_clauses(_x) for _x in range(self.n)], [])
         else:
             return sum([[   # la valeur est deja dans la colone
-                f"-{gen_id(x, y + 1)} 0"
+                f"-{self.gen_id(x, y + 1)} 0"
                 for y in range(self.n) if y != self.values[x].index(v + 1)
             ] if v + 1 in self.values[x] else [
                 # la valeur doit etre dans la colone une fois
-                " ".join(gen_id(x, y, v + 1) for y in range(self.n) if not self.values[x][y]) + " 0",
+                " ".join(self.gen_id(x, y, v + 1) for y in range(self.n) if not self.values[x][y]) + " 0",
                 # la valeur ne doit pas etre presente plusieur fois
                 *[
-                    f"-{gen_id(x, y, v + 1)} {gen_id(x, y + 1, v + 1)} 0"
+                    f"-{self.gen_id(x, y, v + 1)} {self.gen_id(x, y + 1, v + 1)} 0"
                     for y in range(self.n) for y2 in range(y + 1, y2)
                 ]
-            ] for v + 1 for v in range(self.n)], [])
+            ] for v in range(self.n)], [])
 
     """
     
@@ -172,7 +172,35 @@ class table(object):
     
     """
     def gen_h_sign_clauses(self: Self) -> list[str]:
-        return []
+        return sum([
+            # si superieur
+            (
+                # valeur seulement du cote inferieur
+                [" ".join([
+                    self.gen_id(x, y, v + 1) for v in range(self.values[x][y + 1], self.n)
+                ]) + " 0", "-" + " -".join([
+                    self.gen_id(x, y, v + 1) for v in range(self.values[x][y + 1])
+                ]) + " 0"]
+                if self.values[x][y + 1] else
+                # aucune valeur autour du signe
+                []
+            ) if self.h_sign[x][y] else (            # si inferieur
+                []
+                if self.values[x][y + 1] else
+                # aucune valeur autour du signe
+                []
+            )
+            for x in range(self.n - 2) for y in range(self.n) if self.h_sign[x][y] is not None and not self.values[x][y]
+        ], []) + sum([
+            ([] if self.values[self.n - 1][y] else (
+
+            )) if self.values[self.n - 2][y] else ((
+
+            ) if self.values[self.n - 1][y] else (
+
+            ))
+            for y in range(self.n) if self.h_sign[self.n - 2][y] is not None
+        ], [])
         
     """
     

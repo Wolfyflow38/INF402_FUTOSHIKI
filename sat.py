@@ -1,4 +1,10 @@
-from subprocess import run
+# nos fichier, cf : celui qui l'ecrit
+
+None
+
+# librarie standard, cf : internet
+
+from subprocess import run, DEVNULL
 from collections.abc import Callable
 from tempfile import mkstemp
 from os import close, fdopen, remove
@@ -22,7 +28,13 @@ def minisat(dimacs : str) -> str:
     f_in.close()
     fd_out, path_out = mkstemp(text=True)
     close(fd_out)
-    v = run(["minisat", path_in, path_out])
+    # j'aurais pus utiliser os.system mais ca aurais pouri la console pour le mode texte
+    v = run(
+        ["minisat", path_in, path_out],
+        stderr=DEVNULL,
+        stdout=DEVNULL,
+        stdin=DEVNULL
+    )
     code = v.returncode
     remove(path_in)
     rv = ""
@@ -34,4 +46,5 @@ def minisat(dimacs : str) -> str:
     else:
         remove(path_out)
         raise ValueError()
-        
+
+__all__ = ["solve", "solver"]

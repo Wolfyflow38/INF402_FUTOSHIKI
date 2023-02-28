@@ -150,15 +150,15 @@ class table(object):
             return sum([self.gen_v_clauses(_x) for _x in range(self.n)], [])
         else:
             return sum([[   # la valeur est deja dans la colone
-                f"-{self.gen_id(x, y + 1)} 0"
+                f"-{self.gen_id(x, y + 1, v)} 0"
                 for y in range(self.n) if y != self.values[x].index(v + 1)
             ] if v + 1 in self.values[x] else [
                 # la valeur doit etre dans la colone une fois
-                " ".join(self.gen_id(x, y, v + 1) for y in range(self.n) if not self.values[x][y]) + " 0",
+                " ".join(str(self.gen_id(x, y, v + 1)) for y in range(self.n) if not self.values[x][y]) + " 0",
                 # la valeur ne doit pas etre presente plusieur fois
                 *[
-                    f"-{self.gen_id(x, y, v + 1)} {self.gen_id(x, y + 1, v + 1)} 0"
-                    for y in range(self.n) for y2 in range(y + 1, y2)
+                    f"-{self.gen_id(x, y, v + 1)} {self.gen_id(x, y2, v + 1)} 0"
+                    for y in range(self.n) for y2 in range(y + 1, self.n)
                 ]
             ] for v in range(self.n)], [])
 

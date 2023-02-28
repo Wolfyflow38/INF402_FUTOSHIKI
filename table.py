@@ -160,7 +160,7 @@ class table(object):
                     f"-{gen_id(x, y, v + 1)} {gen_id(x, y + 1, v + 1)} 0"
                     for y in range(self.n) for y2 in range(y + 1, y2)
                 ]
-            ] for v + 1 for v in range(self.n)], [])
+            ] for v in range(self.n)], [])
 
     """
     

@@ -12,9 +12,5 @@ from _io import TextIOWrapper
 """
 
 """
-def run_graphique(
-        input_file : TextIOWrapper = stdin,
-        output_file : TextIOWrapper = stdout,
-        *a: tuple, **kw: dict
-) -> None:
-    return None
+def run_graphique(input_file : TextIOWrapper, output_file : TextIOWrapper) -> int:
+    return 0

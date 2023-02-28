@@ -10,11 +10,7 @@ from _io import TextIOWrapper
 """
 
 """
-def run_texte(
-        input_file : TextIOWrapper = stdin,
-        output_file : TextIOWrapper = stdout,
-        *a: tuple, **kw: dict
-) -> None:
+def run_texte(input_file : TextIOWrapper, output_file : TextIOWrapper) -> int:
     ta = table('{"size": 10}')
     ta.set_value_at(0, 0, 1)
     ta.set_h_sign_at(0, 0, True)
@@ -24,4 +20,4 @@ def run_texte(
     ta.set_v_sign_at(3, 2, True)
 #    print(ta)
     print(ta.gen_dimacs())
-    return None
+    return 0

@@ -17,9 +17,6 @@ from json import loads
 from math import log10, floor
 
 
-"""
-
-"""
 class table(object):
     """
     constructeur de la table
@@ -29,6 +26,7 @@ class table(object):
 
     """
     def __init__(self: Self, i: int | str = 5) -> None:
+        """"""
         _t = type(i)
         if _t == int:
             if i > 0:
@@ -48,12 +46,15 @@ class table(object):
         return None
 
     def _pad_f(self: Self, to_pad: str) -> str:
+        """
+    
+        """
         return " " * (self._s - len(to_pad)) + to_pad
 
-    """
-    
-    """
     def __repr__(self: Self) -> str:
+        """
+    
+        """
         rv : list[str] = list((("-" * self._s).join(["|" for i in range(self.n + 1)]) + "\n").join(
             map(lambda _x: _x + "\n", ["", *[
                 "|".join(["", *[
@@ -80,58 +81,56 @@ class table(object):
                         ] = ">" if self.h_sign[x][y] else "<"
         return "".join(rv)
 
-    """
-    
-    """
-    __len__ = lambda self: self.n
+    def __len__(self: Self) -> int:
+        """"""
+        return self.n
 
-    """
-    
-    """
-    __str__ = __repr__
+    def __str__(self: Self) -> str:
+        """"""
+        return self.__repr__()
 
-    """
-    
-    """
-    __int__ = __len__
+    def __int__(self: Self) -> int:
+        """"""
+        return self.__len__()
 
-    """
+    def __bool__(self: Self) -> bool:
+        """
     
-    """
-    __bool__ = lambda self: any(map(any, self.values))
+        """
+        return any(map(any, self.values))
 
-    """
-    0 <= x < n, 0 <= y < n, 0 < v <= n
-    """
     def gen_id(self: Self, x: int, y: int, v: int) -> int:
+        """
+        0 <= x < n, 0 <= y < n, 0 < v <= n    
+        """
         return (x * self.n + y) * self.n + v
 
-    """
-    
-    """
     def set_value_at(self: Self, x: int, y: int, v: int | None = None) -> None:
+        """
+    
+        """
         if v is None:
             v = 0
         elif not -self.n < v < self.n:
             raise ValueError()
         self.values[x][y] = v        
 
-    """
-    
-    """
     def set_v_sign_at(self: Self, x: int, y: int, v: bool | None) -> None:
+        """
+    
+        """
         self.v_sign[x][y] = v
 
-    """
-
-    """
     def set_h_sign_at(self: Self, x: int, y: int, v: bool | None) -> None:
+        """
+    
+        """
         self.h_sign[x][y] = v
 
-    """
-
-    """
     def gen_c_clauses(self: Self) -> list[str]:
+        """
+    
+        """
         return sum([([
                 ("" if v + 1 == self.values[x][y] else "-") + str(self.gen_id(x, y, v + 1)) + " 0"
                 for v in range(self.n)
@@ -142,10 +141,10 @@ class table(object):
             ]
         ]) for x in range(self.n) for y in range(self.n)], [])
 
-    """
-    
-    """
     def gen_v_clauses(self: Self, x: int | None = None) -> list[str]:
+        """
+    
+        """
         if x is None:
             return sum([self.gen_v_clauses(_x) for _x in range(self.n)], [])
         else:
@@ -162,16 +161,16 @@ class table(object):
                 ]
             ] for v in range(self.n)], [])
 
-    """
-    
-    """
     def gen_h_clauses(self: Self) -> list[str]:
+        """
+    
+        """
         return []
 
-    """
-    
-    """
     def gen_h_sign_clauses(self: Self) -> list[str]:
+        """
+    
+        """
         return sum([
             # si superieur
             (
@@ -202,16 +201,12 @@ class table(object):
             for y in range(self.n) if self.h_sign[self.n - 2][y] is not None
         ], [])
         
-    """
-    
-    """
     def gen_v_sign_clauses(self: Self) -> list[str]:
+        """"""
         return []
-    
-    """
-    
-    """    
+
     def gen_clauses(self: Self) -> list[str]:
+        """"""
         return [
             *self.gen_c_clauses(),
             *self.gen_h_clauses(),
@@ -220,9 +215,7 @@ class table(object):
             *self.gen_v_sign_clauses()
         ]
 
-    """
-    
-    """
     def gen_dimacs(self: Self) -> str:
+        """"""
         cl = self.gen_clauses()
         return f"p cnf {self.n ** 3} {len(cl)}\n" + "\n".join(cl)

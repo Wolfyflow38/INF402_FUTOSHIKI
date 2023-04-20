@@ -12,16 +12,28 @@ from os import close, fdopen, remove
 solver_data: dict[str, Callable[[str], str]] = {}
 
 def get_solver(sat: str):
+    """
+    
+    """
     return solver_data[sat]
 
 def solve(dimacs : str, sat: str = "minisat") -> str:
+    """
+    
+    """
     return get_solver(sat)(dimacs)
 
 def solver(func: Callable[[str], str]):
+    """
+
+    """
     solver_data[func.__name__] = func
 
 @solver
 def minisat(dimacs : str) -> str:
+    """
+
+    """
     fd_in, path_in = mkstemp(text=True)
     f_in = fdopen(fd_in)
     f_in.write(dimacs)

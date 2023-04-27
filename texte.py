@@ -11,6 +11,7 @@ def run_texte(ta: table) -> int:
     """
     fonction principale en mode textuel
     """
+    c = None
     if ta is None:
         while True:
             try:
@@ -20,28 +21,43 @@ def run_texte(ta: table) -> int:
                 continue
             else:
                 break
+    else:
+        c = len(ta)
     if __debug__:
             assert(ta is not None)
     while True:
-        cmd = " ".join(filter(None, input("?").split()))
- 
-c=input("entrez la longueur d'un côté")
+        cmd = " ".join(filter(None, input("? : ").split()))
+        if cmd == "set value":
+            try:
+                x = int(input("x ? : "))
+                y = int(input("y ? : "))
+                v = int(input("v (0 pour retirer) ? : "))
+                ta.set_value_at(x, y, v)
+            except ValueError:
+                continue
+        elif cmd == "set vsign":
+            pass
+        elif cmd == "set hsign":
+            pass
+        else:
+            print("commande inconnue")
+        """
 
 for x in range(0,c,1):
     for y in range(0,c,1) :
-        flag=input("valeur ou signe ? v/s/n")
-        if flag=="v":
+        flag = input("valeur ou signe ? v/s/n")
+        if flag == "v":
             print("choisissez une valeur entre 1 et ",c,"\n")
             val=input("entrez la valeur")
             ta.set_value_at(x, y, val) 
-        elsif flag=="s" and x+2<=c :
+        elif flag == "s" and x+2<=c :
             si=input("lignes ou colonnes ? l/c")
-            if si==l :
+            if si == l :
                 print("> ou < ou None \n")
-                si_flag=input("sup/inf/N") 
-                if si_flag=="sup":
+                si_flag = input("sup/inf/N") 
+                if si_flag == "sup":
                 ta.set_h_sign_at(x, y, True)
-                elsif si_flag=="inf":
+                elif si_flag == "inf":
                 ta.set_h_sign_at(x, y, False)    
             elsif si==c and y+2<=c :
                 print("> ou < ou None \n")
@@ -50,7 +66,7 @@ for x in range(0,c,1):
                     ta.set_h_sign_at(x, y, True)
                 elsif si_flag=="inf":
                     ta.set_h_sign_at(x, y, False)
-                
+        """                
 #    ta.set_h_sign_at(0, 0, True) => signe horizontal : case 0,0> 1,0 => limite x=c-2
 #    ta.set_h_sign_at(1, 0, True) => 1,0 > 2.0
 #    ta.set_h_sign_at(0, 1, True)
